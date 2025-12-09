@@ -81,6 +81,21 @@
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <TextView 
+                android:text="Flavor" 
+                android:textStyle="bold" 
+                android:textSize="16sp" 
+                android:layout_marginTop="16dp" 
+                android:layout_marginBottom="8dp" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPizzaFlavors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView 
                 android:text="Crust" 
                 android:textStyle="bold" 
                 android:textSize="16sp" 

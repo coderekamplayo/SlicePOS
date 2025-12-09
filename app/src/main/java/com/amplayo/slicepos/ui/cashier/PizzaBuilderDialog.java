@@ -14,15 +14,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplayo.slicepos.R;
 import com.amplayo.slicepos.data.models.OrderItem;
+import com.amplayo.slicepos.data.models.PizzaFlavor;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PizzaBuilderDialog extends DialogFragment {
 
@@ -60,6 +66,31 @@ public class PizzaBuilderDialog extends DialogFragment {
                 crusts);
         actvCrust.setAdapter(adapter);
 
+        // Setup Flavor Selection with Prices
+        List<PizzaFlavor> flavors = new ArrayList<>();
+        flavors.add(new PizzaFlavor("Cheese", 400.00));
+        flavors.add(new PizzaFlavor("Pepperoni", 450.00));
+        flavors.add(new PizzaFlavor("Hawaiian", 450.00));
+        flavors.add(new PizzaFlavor("Veggie", 480.00));
+        flavors.add(new PizzaFlavor("Meat Lovers", 550.00));
+
+        RecyclerView rvFlavors = v.findViewById(R.id.rvPizzaFlavors);
+        FlavorAdapter flavorAdapter = new FlavorAdapter(flavors, new FlavorAdapter.OnFlavorSelectedListener() {
+            @Override
+            public void onFlavorSelected(PizzaFlavor flavor, int position) {
+                Toast.makeText(requireContext(), "Selected: " + flavor.getName() + " - ₱" + flavor.getPrice(),
+                        Toast.LENGTH_SHORT).show();
+                // Update the price based on selected flavor
+                currentPrice = flavor.getPrice();
+                updatePrice(toggleSize, etWhole, etLeft, etRight, btnAdd);
+            }
+        });
+        rvFlavors.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvFlavors.setAdapter(flavorAdapter);
+
+        // Initialize with first flavor price (Cheese - ₱400)
+        currentPrice = flavors.get(0).getPrice();
+
         // Logic: Toggle Fields
         switchHalf.setOnCheckedChangeListener((buttonView, isChecked) -> {
             tilWhole.setVisibility(isChecked ? View.GONE : View.VISIBLE);
@@ -94,6 +125,25 @@ public class PizzaBuilderDialog extends DialogFragment {
                 String size = (selectedId == R.id.btnSmall) ? "Small"
                         : (selectedId == R.id.btnLarge) ? "Large" : "Medium";
 
+                // Count toppings to get final price
+                int toppings = 0;
+                if (etWhole.getVisibility() == View.VISIBLE) {
+                    toppings += countToppings(etWhole.getText().toString());
+                } else {
+                    toppings += countToppings(etLeft.getText().toString());
+                    toppings += countToppings(etRight.getText().toString());
+                }
+
+                // Calculate size extra
+                double sizeExtra = 0.0;
+                if (selectedId == R.id.btnMedium) {
+                    sizeExtra = 50.0;
+                } else if (selectedId == R.id.btnLarge) {
+                    sizeExtra = 100.0;
+                }
+
+                double finalPrice = currentPrice + sizeExtra + (toppings * 20);
+
                 JSONObject config = new JSONObject();
                 config.put("size", size);
                 config.put("crust", actvCrust.getText().toString());
@@ -101,9 +151,9 @@ public class PizzaBuilderDialog extends DialogFragment {
 
                 OrderItem item = new OrderItem();
                 item.setName(size + " Pizza");
-                item.setUnitPrice(currentPrice);
+                item.setUnitPrice(finalPrice);
                 item.setQuantity(1);
-                item.setLineTotal(currentPrice);
+                item.setLineTotal(finalPrice);
                 item.setConfig(config.toString());
 
                 if (listener != null)
@@ -120,8 +170,18 @@ public class PizzaBuilderDialog extends DialogFragment {
 
     private void updatePrice(MaterialButtonToggleGroup group, TextInputEditText w, TextInputEditText l,
             TextInputEditText r, Button btn) {
-        int id = group.getCheckedButtonId();
-        double base = (id == R.id.btnSmall) ? 200 : (id == R.id.btnLarge) ? 600 : 400;
+        // Use the currentPrice set by flavor selection as the base
+        double base = currentPrice;
+
+        // Add size-based pricing: Small = +0, Medium = +50, Large = +100
+        int selectedId = group.getCheckedButtonId();
+        double sizeExtra = 0.0;
+        if (selectedId == R.id.btnMedium) {
+            sizeExtra = 50.0;
+        } else if (selectedId == R.id.btnLarge) {
+            sizeExtra = 100.0;
+        }
+        // btnSmall or no selection = 0 extra
 
         // Count commas as toppings (rough logic for MVP)
         int toppings = 0;
@@ -132,8 +192,8 @@ public class PizzaBuilderDialog extends DialogFragment {
             toppings += countToppings(r.getText().toString());
         }
 
-        currentPrice = base + (toppings * 20); // 20 pesos per topping
-        btn.setText(String.format("Add - ₱%.2f", currentPrice));
+        double finalPrice = base + sizeExtra + (toppings * 20); // Flavor + Size + Toppings
+        btn.setText(String.format("Add - ₱%.2f", finalPrice));
     }
 
     private int countToppings(String s) {
