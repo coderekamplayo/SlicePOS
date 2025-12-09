@@ -1,6 +1,7 @@
 package com.amplayo.slicepos.data.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "orders")
@@ -23,6 +24,7 @@ public class Order {
     public Order() {
     }
 
+    @Ignore
     public Order(String remoteId, String status, double total, long createdAt, String cashierUid) {
         this.remoteId = remoteId;
         this.status = status;

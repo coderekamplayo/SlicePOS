@@ -1,6 +1,7 @@
 package com.amplayo.slicepos.data.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "order_items")
@@ -25,6 +26,7 @@ public class OrderItem {
     public OrderItem() {
     }
 
+    @Ignore
     public OrderItem(long orderId, String name, String config, int quantity, double unitPrice, double lineTotal) {
         this.orderId = orderId;
         this.name = name;
