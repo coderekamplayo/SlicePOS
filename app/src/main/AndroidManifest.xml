@@ -35,6 +35,7 @@
         <activity android:name=".ui.cashier.PaymentActivity"/>
         <activity android:name=".ui.cashier.PaymentSuccessActivity"/>
         <activity android:name=".ui.cashier.CartActivity"/>
+        <activity android:name=".ui.cashier.OrderDetailsActivity"/>
         <activity android:name=".ui.cashier.OrderQueueActivity"/>
         <activity android:name=".MainActivity"/>
     </application>

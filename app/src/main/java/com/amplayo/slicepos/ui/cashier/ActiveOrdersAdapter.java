@@ -91,6 +91,13 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             } else {
                 binding.btnMarkReady.setVisibility(View.VISIBLE);
             }
+
+            // Click listener to open order details
+            binding.getRoot().setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(v.getContext(), OrderDetailsActivity.class);
+                intent.putExtra("ORDER_ID", order.getId());
+                v.getContext().startActivity(intent);
+            });
         }
 
         private String getStatusDisplayName(String status) {
