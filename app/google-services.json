@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1082819250810",
+    "project_id": "slicepos-de2b8",
+    "storage_bucket": "slicepos-de2b8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082819250810:android:a4cd0afdd85eb2935989c3",
+        "android_client_info": {
+          "package_name": "com.amplayo.slicepos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyH2QKoQG4jsme_Gi4CH5DddJsAjJ1RPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

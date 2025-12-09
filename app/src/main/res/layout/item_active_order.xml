@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Order Number -->
+        <TextView
+            android:id="@+id/tvOrderNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#1024"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Price -->
+        <TextView
+            android:id="@+id/tvOrderPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₱34.50"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/tvOrderNumber"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Status Badge -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kitchen"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:chipBackgroundColor="#FF9800"
+            app:chipIcon="@drawable/ic_pizza_slice"
+            app:chipIconTint="@android:color/white"
+            app:layout_constraintTop_toTopOf="@id/tvOrderNumber"
+            app:layout_constraintBottom_toBottomOf="@id/tvOrderNumber"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Time Elapsed -->
+        <TextView
+            android:id="@+id/tvTimeElapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time Elapsed: 12m 30s"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tvOrderNumber"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Customer -->
+        <TextView
+            android:id="@+id/tvCustomer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customer: Jane D."
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/tvTimeElapsed"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Items -->
+        <TextView
+            android:id="@+id/tvItems"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Items: 1x Pepperoni, 1x Coke"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:layout_marginTop="4dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/tvCustomer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tvItems">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMarkReady"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Mark as Ready"
+                android:textSize="14sp"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/primary"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewDetails"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="View Details"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="#E0E0E0"
+                app:cornerRadius="8dp"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
